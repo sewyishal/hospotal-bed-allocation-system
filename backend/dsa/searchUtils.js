@@ -18,7 +18,7 @@ class SearchUtils {
                     break;
                 }
             }
-            if (match) {
+            if (match) {    
                 results.push(bed);
             }
         }

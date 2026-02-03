@@ -96,16 +96,24 @@ exports.getPendingNurses = async (req, res) => {
 };
 
 // PATCH /api/auth/approve/:id (Admin only)
+// ... (keep other imports and functions as they were)
+
+// PATCH /api/auth/approve/:id (Admin only)
 exports.approveNurse = async (req, res) => {
     try {
-        const user = await User.findById(req.params.id);
+        // FIX: Use findByIdAndUpdate instead of user.save() 
+        // This prevents the password from being double-hashed by the pre-save middleware
+        const user = await User.findByIdAndUpdate(
+            req.params.id,
+            { isApproved: true },
+            { new: true }
+        ).select('-password'); 
+
         const adminName = req.user ? req.user.username : 'Admin';
 
         if (user) {
-            user.isApproved = true;
-            await user.save();
             logActivity('NURSE_APPROVED', `Nurse ${user.username} approved by ${adminName}`, adminName, { nurseId: user.nurseId });
-            res.json({ message: `Nurse ${user.username} approved` });
+            res.json({ message: `Nurse ${user.username} approved`, user });
         } else {
             res.status(404).json({ message: 'User not found' });
         }

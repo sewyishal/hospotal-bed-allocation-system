@@ -4,7 +4,6 @@
 // Allow constant-time lookup and status updates
 // This is a BedStore class that manages hospital/facility beds using a Hash Table data structure
 // The class provides efficient O(1) operations for bed management:
-
 // Constructor: Initializes an empty Map to store beds
 // - The Map uses bed IDs as keys and bed objects as values
 class BedStore {

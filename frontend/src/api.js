@@ -40,3 +40,4 @@ export const activityAPI = {
 };
 
 export default api;
+
